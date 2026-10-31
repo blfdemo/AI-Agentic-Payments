@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Subscription · AgentPay</title>
+  <link rel="icon" href="assets/img/favicon.png">
+  <link rel="stylesheet" href="assets/vendor/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css?v=20261031">
+</head>
+<body data-title="Subscription">
+<div id="page-content" hidden>
+  <div class="bento">
+    <div class="card-ap c8" id="curPlan"></div>
+    <div class="card-ap c4"><div class="bh"><h5>Billing</h5></div><div id="billBox" class="d-flex flex-column grow"></div></div>
+    <div class="card-ap c6"><div class="bh"><h5>Usage this plan</h5></div><div id="usage" class="grow"></div></div>
+    <div class="card-ap c6"><div class="bh"><h5>Invoices</h5></div><div id="invoices" class="fill-list"></div></div>
+  </div>
+  <section id="plans" hidden>
+    <div class="bh mt-2"><div><h5 class="mb-0" style="font-size:20px">Choose a plan</h5><div class="sub">Upgrade any time. Downgrades need your agent count to fit.</div></div>
+      <div class="ap-tabs mb-0" style="padding:4px" id="cycle"><button data-cy="monthly" class="on">Monthly</button><button data-cy="yearly">Yearly · save 20%</button></div></div>
+    <div class="bento" id="planGrid"></div>
+  </section>
+</div>
+<div class="modal fade" id="planModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content p-2">
+  <div class="modal-header"><h5 class="modal-title fw-800" id="pmTitle"></h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+  <div class="modal-body" id="pmBody"></div>
+  <div class="modal-footer"><button class="btn btn-soft" data-bs-dismiss="modal">Cancel</button><button class="btn btn-brand" id="pmGo">Confirm</button></div></div></div></div>
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="js/icons.js?v=20261031"></script>
+<script src="js/app.js?v=20261031"></script>
+<script src="js/subscription.js?v=20261031"></script>
+</body>
+</html>

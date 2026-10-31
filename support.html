@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Support · AgentPay</title>
+  <link rel="icon" href="assets/img/favicon.png">
+  <link rel="stylesheet" href="assets/vendor/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css?v=20261031">
+</head>
+<body data-title="Support">
+<div id="page-content" hidden>
+  <div class="bento">
+    <div class="card-ap c8" style="background:linear-gradient(120deg,var(--brand-50),var(--surface))">
+      <h2 style="font-size:28px" class="mb-1">How can we help?</h2><p class="muted mb-3">Search answers, ask the assistant, or open a ticket. Your plan decides how fast we reply.</p>
+      <div class="input-wrap"><input class="form-control form-control-lg" id="faqQ" placeholder="Search: wallet, limits, webhooks, rails…"></div>
+      <div class="d-flex gap-2 mt-3 flex-wrap push"><button class="btn btn-brand" data-openbot><i data-i="chat" data-s="16"></i> Ask the assistant</button><a href="#contact" class="btn btn-lav" id="toContact">Open a ticket</a><a href="docs/market-research.md" class="btn btn-soft">Read the docs</a></div>
+    </div>
+    <div class="card-ap c4"><div class="bh"><h5>Support level</h5></div><div id="sla" class="d-flex flex-column grow"></div></div>
+  </div>
+  <div class="bento" id="topics"></div>
+  <div class="bento">
+    <div class="card-ap c7"><div class="bh"><h5>Frequently asked</h5><span class="chip gray" id="faqCount"></span></div><div class="faq grow" id="faq"></div></div>
+    <div class="card-ap c5" id="contact"><div class="bh"><h5>Contact support</h5></div>
+      <form novalidate id="tkForm" class="d-flex flex-column grow gap-3">
+        <div><label class="form-label">Subject</label><input class="form-control" id="tkSub" placeholder="What do you need help with?"></div>
+        <div class="row g-2"><div class="col-6"><label class="form-label">Topic</label><select class="form-select" id="tkCat"><option>Agents</option><option>Wallets</option><option>Payment rails</option><option>Billing</option><option>Security</option><option>Other</option></select></div><div class="col-6"><label class="form-label">Priority</label><select class="form-select" id="tkPri"><option>Normal</option><option>High</option><option>Urgent</option></select></div></div>
+        <div class="grow d-flex flex-column"><label class="form-label">Message</label><textarea class="form-control grow" id="tkMsg" rows="4" placeholder="Describe what happened and what you expected"></textarea></div>
+        <button class="btn btn-brand btn-lg">Send ticket</button>
+      </form></div>
+  </div>
+  <div class="card-ap"><div class="bh"><h5>Your tickets</h5><span class="chip gray" id="tkCount"></span></div><div class="t-head" style="grid-template-columns:.8fr 2.2fr 1fr 1fr 1fr"><span>ID</span><span>Subject</span><span>Topic</span><span>Priority</span><span>Status</span></div><div id="tickets"></div></div>
+</div>
+
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="js/icons.js?v=20261031"></script>
+<script src="js/app.js?v=20261031"></script>
+<script src="js/support.js?v=20261031"></script>
+</body>
+</html>

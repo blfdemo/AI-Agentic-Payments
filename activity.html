@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Activity · AgentPay</title>
+  <link rel="icon" href="assets/img/favicon.png">
+  <link rel="stylesheet" href="assets/vendor/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css?v=20261031">
+</head>
+<body data-title="Activity & audit log">
+<div id="page-content" hidden>
+  <div class="bento" id="sums"></div>
+  <div class="card-ap">
+    <div class="d-flex gap-2 flex-wrap mb-3 align-items-center">
+      <input class="form-control" id="fq" placeholder="Search merchant or agent" style="max-width:260px">
+      <select class="form-select" id="fs" style="max-width:170px"><option value="">All statuses</option><option>settled</option><option>blocked</option><option>rejected</option></select>
+      <select class="form-select" id="fa" style="max-width:190px"><option value="">All agents</option></select>
+      <span class="flex-grow-1"></span>
+      <button class="btn btn-lav" id="csv">Export CSV</button>
+    </div>
+    <div class="t-head" style="grid-template-columns:2fr 1.3fr .9fr .9fr 1fr 1.2fr"><span>Merchant</span><span>Agent</span><span>Protocol</span><span>Amount</span><span>Status</span><span>Tx / time</span></div>
+    <div id="rows"></div>
+  </div>
+</div>
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="js/icons.js?v=20261031"></script>
+<script src="js/app.js?v=20261031"></script>
+<script>
+(function () {
+  if (!AP.shell()) return;
+  const S = AP.state(), ST = { settled: ["ok", "Settled"], rejected: ["gray", "Rejected"], blocked: ["bad", "Blocked"] };
+  AP.$("#fa").innerHTML += S.agents.map((a) => `<option>${AP.esc(a.name)}</option>`).join("");
+  const rows = () => { const q = AP.$("#fq").value.toLowerCase(), s = AP.$("#fs").value, a = AP.$("#fa").value; return S.activity.filter((x) => (!s || x.status === s) && (!a || x.agent === a) && (!q || (x.merchant + x.agent).toLowerCase().includes(q))); };
+  function render() {
+    const all = S.activity, ok = all.filter((x) => x.status === "settled"), r = rows();
+    AP.$("#sums").innerHTML = [["Total paid", AP.usd(ok.reduce((s, x) => s + x.amount, 0)), ok.length + " settled payments"], ["Stopped by policy", all.filter((x) => x.status === "blocked").length, "no funds moved"], ["Rejected by you", all.filter((x) => x.status === "rejected").length, "approval declined or expired"], ["Entries", all.length, "full audit trail"]]
+      .map(([a, b, c]) => `<div class="stat c3"><small>${a}</small><b>${b}</b><div class="muted small mt-1">${c}</div></div>`).join("");
+    AP.$("#rows").innerHTML = r.length ? r.map((x) => { const [c, l] = ST[x.status] || ST.settled; return `<div class="t-row" style="grid-template-columns:2fr 1.3fr .9fr .9fr 1fr 1.2fr"><div class="nm"><b>${AP.esc(x.merchant)}</b><span>${AP.esc(x.chain)}</span></div><div class="small fw-bold d-flex align-items-center gap-2">${AP.agentAvByName(x.agent, 28)}${AP.esc(x.agent)}</div><div class="small fw-bold">${AP.esc(x.protocol)}</div><div class="fw-bold">${AP.usd(x.amount)}</div><div><span class="chip ${c}">${l}</span></div><div class="small">${x.tx ? `<a href="#" data-tx="${x.tx}" class="mono">${AP.short(x.tx)}</a>` : '<span class="muted">—</span>'}<div class="muted">${AP.ago(x.ts)}</div></div></div>`; }).join("") : '<div class="empty">No entries match.</div>';
+    AP.$$("[data-tx]").forEach((a) => (a.onclick = (e) => { e.preventDefault(); AP.copy(a.dataset.tx); }));
+  }
+  ["fq", "fs", "fa"].forEach((i) => (AP.$("#" + i).oninput = render));
+  AP.$("#csv").onclick = () => { const h = "time,agent,merchant,amount_usdc,chain,protocol,status,tx\n", b = rows().map((x) => [new Date(x.ts).toISOString(), x.agent, x.merchant, x.amount, x.chain, x.protocol, x.status, x.tx || ""].map((v) => '"' + String(v).replace(/"/g, '""') + '"').join(",")).join("\n"); const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([h + b], { type: "text/csv" })); a.download = "agentpay-audit-log.csv"; a.click(); AP.toast("Audit log exported", "ok"); };
+  render();
+})();
+</script>
+</body>
+</html>

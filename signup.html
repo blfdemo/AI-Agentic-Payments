@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign up · AgentPay</title>
+  <link rel="icon" href="assets/img/favicon.png">
+  <link rel="stylesheet" href="assets/vendor/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css?v=20261031">
+</head>
+<body data-mode="signup">
+<div class="auth">
+  <section class="auth-left">
+    <div class="auth-brand">
+      <img src="assets/img/logo.png" alt="AgentPay logo">
+      <div><b>AgentPay</b><span>Agentic Payments</span></div>
+    </div>
+
+    <div class="auth-form">
+      <h1>Create your account</h1>
+      <p class="sub">Set up your first payment agent in under 2 minutes</p>
+
+      <div class="sso">
+        <button type="button" data-sso="Google"><i data-i="google" data-s="22"></i>Sign up with Google</button>
+        <button type="button" data-sso="Apple"><i data-i="apple" data-s="22"></i>Sign up with Apple</button>
+      </div>
+      <div class="or">OR</div>
+
+      <form id="signupForm" novalidate>
+        <div class="mb-3">
+          <label class="form-label" for="name">Full name</label>
+          <input class="form-control" id="name" placeholder="Enter your full name" autocomplete="name">
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="email">Work email</label>
+          <input class="form-control" id="email" type="email" placeholder="Enter email address" autocomplete="username">
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="password">Password</label>
+          <div class="input-wrap">
+            <input class="form-control" id="password" type="password" placeholder="Create a password" autocomplete="new-password">
+            <button type="button" class="reveal" aria-label="Show password"><i data-i="eye-off" data-s="20"></i></button>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="confirm">Confirm password</label>
+          <input class="form-control" id="confirm" type="password" placeholder="Re-enter password" autocomplete="new-password">
+        </div>
+        <div class="form-check mb-4">
+          <input class="form-check-input" type="checkbox" id="terms">
+          <label class="form-check-label" for="terms">I agree to the <a href="#" onclick="return false">Terms</a> and <a href="#" onclick="return false">Privacy Policy</a></label>
+        </div>
+        <button class="btn btn-grad btn-lg w-100" type="submit" style="border-radius:12px">Create account</button>
+      </form>
+      <p class="mt-4 text-center muted">Already have an account? <a href="login.html">Log in</a></p>
+    </div>
+    <div class="auth-foot">© 2026 AgentPay · Demo environment — no real funds move.</div>
+  </section>
+
+  <section class="auth-right">
+    <div class="copy">
+      <span class="tag-pill">AGENTPAY Policy Engine</span>
+      <h2>Set the rules once. <em>Your agent follows them</em> on every payment</h2>
+    </div>
+    <img class="hero" src="assets/img/signup-hero.png" alt="Spending policy preview">
+  </section>
+</div>
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="js/icons.js?v=20261031"></script>
+<script src="js/app.js?v=20261031"></script>
+<script src="js/auth.js?v=20261031"></script>
+</body>
+</html>

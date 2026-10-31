@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Settings · AgentPay</title>
+  <link rel="icon" href="assets/img/favicon.png">
+  <link rel="stylesheet" href="assets/vendor/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css?v=20261031">
+</head>
+<body data-title="Settings">
+<div id="page-content" hidden>
+  <nav class="ap-tabs" id="tabs">
+    <button data-tab="general"><i data-i="settings" data-s="18"></i>General</button>
+    <button data-tab="notifications"><i data-i="bell" data-s="18"></i>Email &amp; push alerts</button>
+    <button data-tab="webhooks"><i data-i="webhook" data-s="18"></i>Webhooks</button>
+    <button data-tab="team"><i data-i="users" data-s="18"></i>Team &amp; roles</button>
+  </nav>
+
+  <section class="tab-pane" data-pane="general"><div class="bento">
+    <div class="card-ap c6"><div class="bh"><h5>Profile</h5></div><div id="gProfile" class="d-flex flex-column grow"></div></div>
+    <div class="card-ap c6"><div class="bh"><h5>Appearance &amp; defaults</h5></div><div id="gPrefs" class="d-flex flex-column grow"></div></div>
+    <div class="card-ap c6"><div class="bh"><h5>Workspace data</h5></div><div id="gData" class="grow"></div></div>
+    <div class="card-ap c6"><div class="bh"><h5>Danger zone</h5></div><div id="gDanger" class="grow"></div></div>
+  </div></section>
+
+  <section class="tab-pane" data-pane="notifications"><div class="bento">
+    <div class="card-ap c6"><div class="bh"><h5>Email alerts</h5><div class="form-check form-switch m-0"><input class="form-check-input" type="checkbox" id="emOn"></div></div><div id="emBox" class="d-flex flex-column grow"></div></div>
+    <div class="card-ap c6"><div class="bh"><h5>Push alerts</h5><div class="form-check form-switch m-0"><input class="form-check-input" type="checkbox" id="puOn"></div></div><div id="puBox" class="d-flex flex-column grow"></div></div>
+  </div></section>
+
+  <section class="tab-pane" data-pane="webhooks"><div class="bento">
+    <div class="card-ap c7"><div class="bh"><h5>Endpoints</h5><button class="btn btn-brand btn-sm" id="whAdd"><i data-i="plus" data-s="14"></i> Add endpoint</button></div><div id="whList" class="fill-list"></div></div>
+    <div class="card-ap c5"><div class="bh"><h5>Recent deliveries</h5></div><div id="whLog" class="fill-list"></div></div>
+    <div class="card-ap c6"><div class="bh"><h5>Verify signatures</h5></div><div id="whVerify" class="grow"></div></div>
+    <div class="card-ap c6"><div class="bh"><h5>Event catalogue</h5></div><div id="whEvents" class="fill-list"></div></div>
+  </div></section>
+
+  <section class="tab-pane" data-pane="team"><div class="bento">
+    <div class="card-ap c8"><div class="bh"><h5>Members</h5><span class="chip gray" id="seatChip"></span></div><div id="tmList" class="fill-list"></div>
+      <form novalidate id="tmForm" class="row g-2 mt-3"><div class="col-md-5"><input class="form-control" id="tmEmail" placeholder="teammate@company.com"></div><div class="col-md-4"><select class="form-select" id="tmRole"></select></div><div class="col-md-3"><button class="btn btn-brand w-100">Invite</button></div></form></div>
+    <div class="card-ap c4"><div class="bh"><h5>Seats</h5></div><div id="tmSeats" class="d-flex flex-column grow"></div></div>
+    <div class="card-ap c12"><div class="bh"><h5>Role permissions</h5></div><div style="overflow-x:auto" id="tmMatrix"></div></div>
+  </div></section>
+
+</div>
+<div class="modal fade" id="whModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content p-2">
+  <div class="modal-header"><h5 class="modal-title fw-800">Add webhook endpoint</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+  <div class="modal-body"><label class="form-label">Endpoint URL</label><input class="form-control mb-3" id="whUrl" placeholder="https://example.com/hooks/agentpay"><label class="form-label">Events</label><div class="d-flex flex-wrap gap-2" id="whEv"></div></div>
+  <div class="modal-footer"><button class="btn btn-soft" data-bs-dismiss="modal">Cancel</button><button class="btn btn-brand" id="whGo">Add endpoint</button></div></div></div></div>
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="js/icons.js?v=20261031"></script>
+<script src="js/app.js?v=20261031"></script>
+<script src="js/settings.js?v=20261031"></script>
+</body>
+</html>

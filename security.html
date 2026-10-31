@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Security · AgentPay</title>
+  <link rel="icon" href="assets/img/favicon.png">
+  <link rel="stylesheet" href="assets/vendor/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css?v=20261031">
+</head>
+<body data-title="Security">
+<div id="page-content" hidden>
+  <nav class="ap-tabs" id="tabs">
+    <button data-tab="overview"><i data-i="shield-check" data-s="18"></i>Overview</button>
+    <button data-tab="policy"><i data-i="sliders" data-s="18"></i>Spending policy</button>
+    <button data-tab="access"><i data-i="globe" data-s="18"></i>Allow-list &amp; categories</button>
+    <button data-tab="audit"><i data-i="list" data-s="18"></i>Audit log</button>
+  </nav>
+
+  <section class="tab-pane" data-pane="overview">
+    <div class="bento">
+      <div class="card-ap c4 text-center">
+        <div class="score-ring mx-auto mb-3" id="ring"><span id="scoreNum">0</span></div>
+        <h4>Security score</h4><p class="muted mb-3" id="scoreMsg"></p>
+        <div class="push text-start" id="todo"></div>
+      </div>
+      <div class="card-ap c4"><div class="bh"><h5>Sign-in &amp; approvals</h5></div><div id="controls" class="fill-list"></div></div>
+      <div class="kill c4" id="killBox" style="display:flex;flex-direction:column">
+        <div class="d-flex gap-3 align-items-start grow">
+          <div class="mt-1" style="color:var(--bad)"><i data-i="power" data-s="30"></i></div>
+          <div class="flex-grow-1"><h5 class="mb-1">Emergency kill switch</h5><p class="muted mb-3" id="killTxt"></p><div class="small d-flex flex-column gap-2"><div class="d-flex gap-2"><span style="color:var(--bad)">●</span> Running payments are cancelled</div><div class="d-flex gap-2"><span style="color:var(--bad)">●</span> Signing with the session key stops</div><div class="d-flex gap-2"><span style="color:var(--bad)">●</span> Pending approvals are rejected</div></div></div>
+        </div>
+        <div class="kv mb-3" id="killKv"></div>
+        <button class="btn btn-lg" id="killBtn"></button>
+      </div>
+      <div class="card-ap c6"><div class="bh"><h5>Protection summary</h5></div><div id="protect" class="fill-list"></div></div>
+      <div class="card-ap c6"><div class="bh"><h5>Recent security events</h5><a href="#audit" class="small">All events</a></div><div id="auditMini" class="fill-list"></div></div>
+    </div>
+  </section>
+
+  <section class="tab-pane" data-pane="policy">
+    <div class="bento">
+      <div class="card-ap c7">
+        <div class="bh"><h5>Spending limits</h5><span class="sub">applies to every agent</span></div>
+        <div id="sliders"></div>
+        <div class="sec-row"><div class="si"><i data-i="shield" data-s="22"></i></div><div class="tx"><b>Allow-list only</b><span>Agents can only pay merchants on your list</span></div><div class="form-check form-switch m-0"><input class="form-check-input" type="checkbox" id="onlyAllow"></div></div>
+        <button class="btn btn-brand btn-lg mt-4 push align-self-start" id="savePolicy">Save policy</button>
+      </div>
+      <div class="card-ap c5"><div class="bh"><h5>What this means</h5></div><div id="polExplain" class="grow"></div></div>
+    </div>
+  </section>
+
+  <section class="tab-pane" data-pane="access">
+    <div class="bento">
+      <div class="card-ap c7">
+        <div class="bh"><h5>Allow-listed merchants</h5><span class="chip gray" id="allowCount"></span></div>
+        <div class="d-flex flex-wrap gap-2 mb-3 grow align-content-start" id="allowChips"></div>
+        <div class="input-group"><input class="form-control" id="allowIn" placeholder="e.g. api.coingecko.com" style="border-radius:12px 0 0 12px"><button class="btn btn-lav" id="allowAdd" style="border-radius:0 12px 12px 0">Add</button></div>
+      </div>
+      <div class="card-ap c5">
+        <div class="bh"><h5>Blocked categories</h5></div>
+        <div class="d-flex flex-wrap gap-2 grow align-content-start" id="blockChips"></div>
+        <div class="muted small mt-3">Tap a category to block or allow it. Changes save instantly and apply to the next payment.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tab-pane" data-pane="audit">
+    <div class="card-ap"><div class="bh"><h5>Security audit log</h5><span class="sub">newest first</span></div><div id="audit"></div></div>
+  </section>
+</div>
+
+<!-- 2FA modal -->
+<div class="modal fade" id="tfModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content p-2">
+  <div class="modal-header"><h5 class="modal-title fw-800">Set up authenticator</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+  <div class="modal-body text-center">
+    <p class="muted">Scan with Google Authenticator, 1Password or Authy, then enter the 6-digit code.</p>
+    <div class="qr-fake mx-auto mb-3" id="qr"></div>
+    <div class="addr-box justify-content-center mono small mb-3" id="secretKey"></div>
+    <div class="otp d-flex gap-2 justify-content-center mb-2" id="otp"></div>
+    <div class="invalid-feedback d-block" id="otpErr"></div>
+    <small class="muted">Demo: any 6 digits are accepted.</small>
+  </div>
+  <div class="modal-footer"><button class="btn btn-soft" data-bs-dismiss="modal">Cancel</button><button class="btn btn-brand" id="tfVerify">Verify &amp; enable</button></div>
+</div></div></div>
+
+<!-- Passkey modal -->
+<div class="modal fade" id="pkModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-sm"><div class="modal-content p-3 text-center">
+  <div class="mx-auto my-3" style="color:var(--brand)"><i data-i="fingerprint" data-s="64"></i></div>
+  <h5>Create a passkey</h5><p class="muted" id="pkMsg">Use Face ID, Touch ID or your device PIN.</p>
+  <button class="btn btn-brand w-100" id="pkGo">Continue</button>
+</div></div></div>
+
+<!-- PIN modal -->
+<div class="modal fade" id="pinModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-sm"><div class="modal-content p-2">
+  <div class="modal-header"><h5 class="modal-title fw-800" id="pinTitle">Transaction PIN</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+  <div class="modal-body"><input class="form-control text-center" id="pinIn" inputmode="numeric" placeholder="••••" style="font-size:26px;letter-spacing:10px"><div class="invalid-feedback d-block text-center" id="pinErr"></div></div>
+  <div class="modal-footer"><button class="btn btn-brand w-100" id="pinGo">Confirm</button></div>
+</div></div></div>
+
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="js/icons.js?v=20261031"></script>
+<script src="js/app.js?v=20261031"></script>
+<script src="js/security.js?v=20261031"></script>
+</body>
+</html>

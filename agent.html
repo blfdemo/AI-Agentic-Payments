@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent Console · AgentPay</title>
+  <link rel="icon" href="assets/img/favicon.png">
+  <link rel="stylesheet" href="assets/vendor/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-title="Agent Console">
+<div id="page-content" hidden>
+
+  <!-- HERO: identity -> operating limits -> actions -->
+  <section class="agent-hero" id="hero">
+    <div class="ah-top">
+      <div class="ah-id">
+        <div class="ah-avatars" id="orb" aria-hidden="true"></div>
+        <div class="ah-txt">
+          <div class="ah-title"><h2>Autonomous agent</h2><span class="live-chip" id="runChip">Offline</span></div>
+          <p id="heroSub"></p>
+        </div>
+      </div>
+      <div class="ah-act">
+        <button class="btn-go" id="liveBtn"></button>
+        <button class="btn-kill" id="killBtn"></button>
+      </div>
+    </div>
+    <div class="ah-controls">
+      <div class="ctl"><label for="missionSel">Mission</label>
+        <select id="missionSel"><option value="all">All agents</option><option value="research">Research · data &amp; APIs</option><option value="ops">Ops · cloud &amp; infra</option><option value="treasury">Treasury · invoices &amp; subs</option></select></div>
+      <div class="ctl"><label>Session budget</label><div class="dropdown ntf"><button type="button" class="ntf-btn" id="budgetBtn" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"></button><div class="dropdown-menu dropdown-menu-end ntf-menu" id="budgetMenu"></div></div></div>
+      <div class="ctl"><label>Speed</label><div class="seg" id="speedGrp"><button data-sp="1">1×</button><button data-sp="2">2×</button><button data-sp="4">4×</button></div></div>
+      <div class="ctl"><label>Notifications</label><div class="dropdown ntf"><button type="button" class="ntf-btn" id="ntfBtn" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"></button><div class="dropdown-menu dropdown-menu-end ntf-menu" id="ntfMenu"></div></div></div>
+    </div>
+  </section>
+
+  <div class="kpis" id="kpis"></div>
+
+  <nav class="ap-tabs" id="tabs">
+    <button data-tab="live"><i data-i="activity" data-s="18"></i>Live activity</button>
+    <button data-tab="crew"><i data-i="users" data-s="18"></i>Agent crew</button>
+    <button data-tab="approvals"><i data-i="clock" data-s="18"></i>Approvals<span class="cnt" id="cntApp">0</span></button>
+    <button data-tab="policy"><i data-i="shield-check" data-s="18"></i>Policy &amp; mandates</button>
+    <button data-tab="payments"><i data-i="receipt" data-s="18"></i>Payments</button>
+    <button data-tab="settings"><i data-i="settings" data-s="18"></i>Agent settings</button>
+  </nav>
+
+  <!-- 1 · LIVE ACTIVITY -->
+  <section class="tab-pane" data-pane="live">
+    <div class="bento">
+      <div class="card-ap c7">
+        <div class="bh"><h5>Live activity</h5><span class="chip gray" id="laneCount">0 running</span></div>
+        <div class="lanes-box"><div id="lanes"></div></div>
+      </div>
+      <div class="card-ap c5">
+        <div class="bh"><h5>Trigger a task now</h5></div>
+        <div class="muted small mb-3">Works even when the agent is offline. Try the 480 USDC invoice, the over-limit purchase and the suspicious payee.</div>
+        <div id="scnList"></div>
+        <form novalidate id="cmdForm" class="d-flex gap-2 mt-3"><input class="form-control" id="cmdIn" placeholder="Pay 25 USDC to api.weatherdata.xyz"><button class="btn btn-brand btn-icon flex-none" style="width:48px;height:48px" title="Run"><i data-i="send" data-s="18"></i></button></form>
+        <div class="muted small mt-2">Try an unlisted domain to watch the policy engine block it.</div>
+        <div class="kv push pt-3" id="sessKv"></div>
+      </div>
+      <div class="card-ap c7 p-0 overflow-hidden">
+        <div class="termwrap" style="border:0;border-radius:0;height:100%;display:flex;flex-direction:column">
+          <div class="term-bar"><span class="dots"><i></i><i></i><i></i></span><b>agent@agentpay — live stream</b><span class="flex-grow-1"></span><button class="tb-btn" id="clearTerm">Clear</button></div>
+          <div class="term-body"><div class="term" id="term"></div></div>
+        </div>
+      </div>
+      <div class="card-ap c5"><div id="polSnap" class="d-flex flex-column h-100"></div></div>
+    </div>
+  </section>
+
+  <!-- 2 · AGENT CREW -->
+  <section class="tab-pane" data-pane="crew">
+    <div class="bh"><div><h5 class="mb-0">Agent crew</h5><div class="sub" id="crewSub"></div></div><button class="btn btn-brand" id="newAgentBtn"><i data-i="plus" data-s="16"></i> Create agent</button></div>
+    <div class="bento" id="crew"></div>
+  </section>
+
+  <!-- 3 · APPROVALS -->
+  <section class="tab-pane" data-pane="approvals">
+    <div class="bento">
+      <div class="card-ap c7" id="inboxCard">
+        <div class="bh"><h5>Approval inbox</h5><span class="chip gray" id="inboxCount">0 waiting</span></div>
+        <div id="inbox" class="grow"></div>
+      </div>
+      <div class="card-ap c5">
+        <div class="bh"><h5>How approvals work</h5></div>
+        <div id="apprInfo" class="grow"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · POLICY & MANDATES -->
+  <section class="tab-pane" data-pane="policy">
+    <div class="bento">
+      <div class="card-ap c6"><div id="polSnap2" class="d-flex flex-column h-100"></div></div>
+      <div class="card-ap c6"><div class="bh"><h5>Mandates (AP2)</h5><span class="sub">pre-signed by you</span></div><div id="mandates" class="fill-list"></div></div>
+      <div class="card-ap c6"><div class="bh"><h5>Payment rails</h5><a href="wallets.html#cards" class="small">Manage</a></div><div id="railList" class="fill-list"></div></div>
+      <div class="card-ap c6"><div class="bh"><h5>Allow-list &amp; blocked categories</h5><a href="security.html#policy" class="small">Edit</a></div><div id="listsBox" class="grow"></div></div>
+    </div>
+  </section>
+
+  <!-- 5 · PAYMENTS -->
+  <section class="tab-pane" data-pane="payments">
+    <div class="bento">
+      <div class="card-ap c8"><div class="bh"><h5>Recent payments</h5><a href="activity.html" class="small">Full audit log</a></div><div id="hist" class="fill-list"></div></div>
+      <div class="card-ap c4"><div class="bh"><h5>Spend by agent</h5><span class="sub">settled, all time</span></div><div id="byAgent" class="grow"></div></div>
+    </div>
+  </section>
+
+  <!-- 6 · AGENT SETTINGS -->
+  <section class="tab-pane" data-pane="settings">
+    <div class="bento">
+      <div class="card-ap c4"><div class="bh"><h5>Choose agent</h5></div><div id="setList" class="fill-list"></div><button class="btn btn-lav mt-3" id="newAgentBtn2"><i data-i="plus" data-s="16"></i> Create agent</button></div>
+      <div class="card-ap c8"><div class="bh"><h5 id="setTitle">Settings</h5><span class="sub">changes apply to the next payment</span></div><div id="setForm" class="grow"></div><div class="d-flex gap-2 mt-4"><button class="btn btn-brand" id="setSave">Save changes</button><button class="btn btn-soft" id="setReset">Discard</button></div></div>
+      <div class="card-ap c6"><div class="bh"><h5>Access &amp; session key</h5></div><div id="setKey" class="grow"></div></div>
+      <div class="card-ap c6"><div class="bh"><h5>Danger zone</h5></div><div id="setDanger" class="grow"></div></div>
+    </div>
+  </section>
+</div>
+
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="js/icons.js"></script>
+<script src="js/app.js"></script>
+<script src="js/agent-script.js"></script>
+<script src="js/agent-run.js"></script>
+<script src="js/agent.js"></script>
+</body>
+</html>

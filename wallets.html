@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wallets · AgentPay</title>
+  <link rel="icon" href="assets/img/favicon.png">
+  <link rel="stylesheet" href="assets/vendor/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css?v=20261031">
+</head>
+<body data-title="Wallets">
+<div id="page-content" hidden>
+  <nav class="ap-tabs" id="tabs">
+    <button data-tab="wallets"><i data-i="wallet" data-s="18"></i>Wallets</button>
+    <button data-tab="networks"><i data-i="network" data-s="18"></i>Networks &amp; signing</button>
+  </nav>
+
+  <section class="tab-pane" data-pane="wallets">
+    <div class="bento">
+      <div class="card-ap c6"><div class="bh"><h5>Funding wallet</h5><span class="sub">your own wallet</span></div><div id="mainWallet" class="d-flex flex-column grow"></div></div>
+      <div class="panel-lav c6"><div class="inner" id="agentWallet"></div></div>
+      <div class="card-ap c6"><div class="bh"><h5>Auto-refill</h5><span class="sub">keep agents funded</span></div><div id="refill" class="d-flex flex-column grow"></div></div>
+      <div class="card-ap c6"><div class="bh"><h5>Recent funding &amp; keys</h5></div><div id="walletLog" class="fill-list"></div></div>
+    </div>
+  </section>
+
+  <section class="tab-pane" data-pane="networks">
+    <div class="bento">
+      <div class="card-ap c6"><div class="bh"><h5>Supported networks</h5></div><div id="networks" class="fill-list"></div></div>
+      <div class="card-ap c6">
+        <div class="bh"><h5>How agent signing works</h5></div>
+        <div class="grow">
+        <div class="sec-row"><div class="si"><i data-i="wallet" data-s="22"></i></div><div class="tx"><b>1 · Your wallet owns the agent wallet</b><span>The agent never touches your main private key.</span></div></div>
+        <div class="sec-row"><div class="si"><i data-i="key" data-s="22"></i></div><div class="tx"><b>2 · Scoped session key</b><span>Limited by amount, token and time. Revocable at any moment.</span></div></div>
+        <div class="sec-row"><div class="si"><i data-i="shield-check" data-s="22"></i></div><div class="tx"><b>3 · Policy engine in front of every signature</b><span>Limits, allow-lists and approvals are checked before signing.</span></div></div>
+        <div class="sec-row"><div class="si"><i data-i="receipt" data-s="22"></i></div><div class="tx"><b>4 · Every payment settles on-chain</b><span>Stablecoin transfers only, with a receipt and tx hash in your audit log.</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Connect modal -->
+<div class="modal fade" id="connectModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content p-2">
+  <div class="modal-header"><h5 class="modal-title fw-800" id="cmTitle">Connect a wallet</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+  <div class="modal-body" id="cmBody"></div>
+</div></div></div>
+
+<!-- Session key modal -->
+<div class="modal fade" id="keyModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content p-2">
+  <div class="modal-header"><h5 class="modal-title fw-800">Issue session key</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+  <div class="modal-body">
+    <div class="mb-3" id="skLimitBox"></div>
+    <label class="form-label">Valid for</label>
+    <select class="form-select" id="skDur"><option value="1">1 hour</option><option value="24" selected>24 hours</option><option value="168">7 days</option></select>
+    <p class="muted small mt-3 mb-0">Your wallet will be asked to sign a delegation. The key can only spend USDC up to the limit above.</p>
+  </div>
+  <div class="modal-footer"><button class="btn btn-soft" data-bs-dismiss="modal">Cancel</button><button class="btn btn-brand" id="skGo">Sign &amp; issue</button></div>
+</div></div></div>
+
+<!-- Fund modal -->
+<div class="modal fade" id="fundModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content p-2">
+  <div class="modal-header"><h5 class="modal-title fw-800">Fund agent wallet</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+  <div class="modal-body"><label class="form-label">Amount (USDC)</label><input class="form-control form-control-lg" id="fundAmt" type="number" value="500"></div>
+  <div class="modal-footer"><button class="btn btn-soft" data-bs-dismiss="modal">Cancel</button><button class="btn btn-brand" id="fundGo">Transfer</button></div>
+</div></div></div>
+
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="js/icons.js?v=20261031"></script>
+<script src="js/app.js?v=20261031"></script>
+<script src="js/wallets.js?v=20261031"></script>
+</body>
+</html>
