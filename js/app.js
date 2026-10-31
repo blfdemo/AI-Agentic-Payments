@@ -134,7 +134,7 @@
                 <li><a class="dropdown-item" href="settings.html">${AP.icon("settings", 18)}Settings</a></li>
                 <li><a class="dropdown-item" href="settings.html#team">${AP.icon("users", 18)}Team &amp; roles</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#" id="resetDemo">${AP.icon("refresh", 18)}Reset demo data</a></li>
+                <li><a class="dropdown-item" href="#" id="resetDemo">${AP.icon("refresh", 18)}Refresh app</a></li>
                 <li><a class="dropdown-item" href="#" id="logoutItem">${AP.icon("logout", 18)}Log out</a></li>
               </ul>
             </div>
